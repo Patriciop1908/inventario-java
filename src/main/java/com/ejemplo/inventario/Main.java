@@ -23,7 +23,12 @@ public class Main {
         inventario.quitarStock("teclado", 3); // el nombre no distingue mayúsculas
         System.out.println("Stock de Teclado: " + inventario.consultarStock("Teclado"));
 
-        // 3. Casos de error controlados
+        // 3. Producto con menor stock (útil para saber qué reponer primero)
+        Producto menorStock = inventario.obtenerProductoConMenorStock();
+        System.out.println("\nProducto a reponer primero: " + menorStock.getNombre()
+                + " (" + menorStock.getCantidad() + " unidades)");
+
+        // 4. Casos de error controlados
         System.out.println("\n=== Casos de error ===");
         try {
             inventario.quitarStock("Monitor", 10);
@@ -43,7 +48,13 @@ public class Main {
             System.out.println("Error: " + e.getMessage());
         }
 
-        // 4. Listado final
+        try {
+            new Inventario().obtenerProductoConMenorStock();
+        } catch (InventarioVacioException e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        // 5. Listado final
         System.out.println("\n=== Inventario final ===");
         imprimirInventario(inventario);
     }

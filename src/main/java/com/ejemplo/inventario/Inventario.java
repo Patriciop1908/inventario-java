@@ -1,6 +1,7 @@
 package com.ejemplo.inventario;
 
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -63,6 +64,20 @@ public class Inventario {
      */
     public List<Producto> listarProductos() {
         return List.copyOf(productos.values());
+    }
+
+    /**
+     * Devuelve el producto con menos unidades disponibles.
+     * Si varios productos empatan, se devuelve el que se agregó primero.
+     *
+     * @return el producto con menor stock
+     * @throws InventarioVacioException si el inventario no tiene productos
+     */
+    public Producto obtenerProductoConMenorStock() {
+        // min() conserva el primer elemento en caso de empate, y LinkedHashMap mantiene el orden de inserción
+        return productos.values().stream()
+                .min(Comparator.comparingInt(Producto::getCantidad))
+                .orElseThrow(InventarioVacioException::new);
     }
 
     /**

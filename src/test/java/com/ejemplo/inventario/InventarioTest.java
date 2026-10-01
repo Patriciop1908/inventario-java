@@ -70,6 +70,35 @@ class InventarioTest {
     }
 
     @Test
+    void obtenerProductoConMenorStockDevuelveElDeMenosUnidades() {
+        inventario.agregarProducto(new Producto("Ratón", new BigDecimal("12.99"), 25));
+        inventario.agregarProducto(new Producto("Monitor", new BigDecimal("189.00"), 3));
+
+        assertEquals("Monitor", inventario.obtenerProductoConMenorStock().getNombre());
+    }
+
+    @Test
+    void obtenerProductoConMenorStockSeActualizaAlQuitarStock() {
+        inventario.agregarProducto(new Producto("Ratón", new BigDecimal("12.99"), 5));
+        inventario.quitarStock("Teclado", 8); // Teclado pasa de 10 a 2 unidades
+
+        assertEquals("Teclado", inventario.obtenerProductoConMenorStock().getNombre());
+    }
+
+    @Test
+    void obtenerProductoConMenorStockEnEmpateDevuelveElPrimeroAgregado() {
+        inventario.agregarProducto(new Producto("Ratón", new BigDecimal("12.99"), 10));
+
+        assertEquals("Teclado", inventario.obtenerProductoConMenorStock().getNombre());
+    }
+
+    @Test
+    void obtenerProductoConMenorStockEnInventarioVacioLanzaExcepcion() {
+        Inventario vacio = new Inventario();
+        assertThrows(InventarioVacioException.class, vacio::obtenerProductoConMenorStock);
+    }
+
+    @Test
     void valorTotalSumaPrecioPorCantidad() {
         inventario.agregarProducto(new Producto("Ratón", new BigDecimal("12.99"), 2));
         // 25.50 * 10 + 12.99 * 2 = 280.98
