@@ -98,8 +98,11 @@ public class Inventario {
         return producto;
     }
 
-    /** Convierte el nombre a una clave uniforme (sin espacios extremos y en minúsculas). */
-    private static String normalizar(String nombre) {
+    /**
+     * Convierte el nombre a una clave uniforme (sin espacios extremos y en minúsculas).
+     * Visibilidad de paquete: {@link InventarioDAO} la reutiliza para su clave primaria.
+     */
+    static String normalizar(String nombre) {
         Objects.requireNonNull(nombre, "El nombre no puede ser nulo");
         return nombre.trim().toLowerCase(Locale.ROOT);
     }

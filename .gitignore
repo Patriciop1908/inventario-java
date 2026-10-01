@@ -3,3 +3,6 @@ target/
 .idea/
 *.iml
 .vscode/
+
+# Base de datos local generada al ejecutar la aplicación
+*.db
